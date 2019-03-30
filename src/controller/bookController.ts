@@ -13,7 +13,7 @@ class BookController {
 
       res.status(httpStatus.OK).send(data);
     } catch (error) {
-      res.status(httpStatus.OK).send(error.message);
+      res.status(httpStatus.OK).send({ message: 'Failed to list Books' });
     }
   }
 
@@ -27,7 +27,7 @@ class BookController {
 
       res.status(httpStatus.OK).send(data);
     } catch (error) {
-      res.status(httpStatus.BAD_REQUEST).send({});
+      res.status(httpStatus.BAD_REQUEST).send({ message: 'Failed to list Books' });
     }
   }
 
@@ -39,7 +39,7 @@ class BookController {
 
       res.status(httpStatus.OK).send(data);
     } catch (error) {
-      res.status(httpStatus.BAD_REQUEST).send({});
+      res.status(httpStatus.BAD_REQUEST).send({ message: 'Failed to list Books' });
     }
   }
 
@@ -58,7 +58,42 @@ class BookController {
 
       res.status(httpStatus.CREATED).send({ data: response });
     } catch (error) {
-      res.status(httpStatus.BAD_REQUEST).send({error: 'error'});
+      res.status(httpStatus.BAD_REQUEST).send({ message: 'Failed to register Book' });
+    }
+  }
+
+  async put(req: Request, res: Response): Promise<any> {
+    try {
+      const { body, params } = req;
+
+      const id = params.id || body.id;
+
+      const bookValidator = new BookValidator();
+
+      if (!bookValidator.isBookValid(body)) {
+        res.status(httpStatus.BAD_REQUEST).send({ errors: bookValidator.getErrors() });
+        return
+      }
+
+      const response = await BookService.put(id, body);
+
+      res.status(httpStatus.OK).send({ data: response });
+    } catch (error) {
+      res.status(httpStatus.BAD_REQUEST).send({ message: 'Failed to update Book' });
+    }
+  }
+
+  async delete(req: Request, res: Response): Promise<any> {
+    try {
+      const { body, params } = req;
+
+      const id = params.id || body.id;
+
+      const response = await BookService.delete(id);
+
+      res.status(httpStatus.OK).send({ data: response });
+    } catch (error) {
+      res.status(httpStatus.BAD_REQUEST).send({ message: 'Failed to delete Book' });
     }
   }
 
@@ -70,6 +105,10 @@ class BookController {
     this.router.get('/genero/:genre', this.getByGenre);
 
     this.router.post('/', this.post)
+
+    this.router.put('/:id', this.put)
+
+    this.router.delete('/:id', this.delete)
 
     return this.router;
   }

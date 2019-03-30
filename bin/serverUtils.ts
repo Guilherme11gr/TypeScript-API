@@ -10,7 +10,7 @@ class ServerUtil {
     return false;
   }
 
-  runLog(port: number) {
+  runLog(port: number): Object {
     console.clear();
     const P = ['\\', '|', '/', '-'];
     let x = 0;

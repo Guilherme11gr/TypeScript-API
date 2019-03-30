@@ -19,6 +19,15 @@ class BookService {
     const newBook = new BookRepository(book);
     return newBook.save();
   }
+
+  async put(_id: string, book: Book): Promise<Book> {
+    return BookRepository.findOneAndUpdate({ _id }, book, { new: true });
+  }
+
+  async delete(_id: string): Promise<Book> {
+    return BookRepository.findOneAndDelete({ _id });
+  }
+
 }
 
 export default new BookService();

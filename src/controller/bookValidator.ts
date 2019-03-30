@@ -20,15 +20,15 @@ class BookValidator extends ValidatorContract {
   isTitleValid(title: string): void {
     this.isRequired(title, 'Title is required!');
    
-    this.hasMaxLen(title, 20, 'Title must be a maximum of 20 characters');
+    this.hasMaxLen(title, 50, 'Title must be a maximum of 50 characters');
   }
 
   isDescriptionValid(description: string): void {
     this.isRequired(description, 'Description is required!');
    
-    this.hasMinLen(description, 20, 'Description must be a the least of 20 characters');
+    this.hasMinLen(description, 50, 'Description must be a the least of 50 characters');
    
-    this.hasMaxLen(description, 800, 'Description must be a maximum of 800 characters');
+    this.hasMaxLen(description, 1500, 'Description must be a maximum of 1500 characters');
   }
 
   isAuthorValid(author: string): void {
