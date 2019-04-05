@@ -13,7 +13,7 @@ class BookController {
 
       res.status(httpStatus.OK).send(data);
     } catch (error) {
-      res.status(httpStatus.OK).send({ message: 'Failed to list Books' });
+      res.status(httpStatus.BAD_REQUEST).send({ message: 'Failed to list Books' });
     }
   }
 
@@ -50,7 +50,7 @@ class BookController {
       const bookValidator = new BookValidator();
 
       if (!bookValidator.isBookValid(body)) {
-        res.status(httpStatus.BAD_REQUEST).send({ errors: bookValidator.getErrors() });
+        res.status(httpStatus.BAD_REQUEST).send(bookValidator.getErrors());
         return
       }
 
@@ -71,7 +71,7 @@ class BookController {
       const bookValidator = new BookValidator();
 
       if (!bookValidator.isBookValid(body)) {
-        res.status(httpStatus.BAD_REQUEST).send({ errors: bookValidator.getErrors() });
+        res.status(httpStatus.BAD_REQUEST).send(bookValidator.getErrors());
         return
       }
 
