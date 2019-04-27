@@ -4,12 +4,11 @@ import BookService from '../service/bookServices';
 import BookValidator from './bookValidator';
 
 class BookController {
-
   router: Router = Router();
 
   async get(req: Request, res: Response): Promise<any> {
     try {
-      const data = await BookService.get();
+      const data = await BookService.get(req.query);
 
       res.status(httpStatus.OK).send(data);
     } catch (error) {
@@ -17,25 +16,9 @@ class BookController {
     }
   }
 
-  async getByAuthor(req: Request, res: Response): Promise<any> {
+  async getAuthors(req: Request, res: Response): Promise<any> {
     try {
-      const { params } = req;
-
-      const data = await BookService.getByAuthor(params.author);
-
-      console.log(params.author)
-
-      res.status(httpStatus.OK).send(data);
-    } catch (error) {
-      res.status(httpStatus.BAD_REQUEST).send({ message: 'Failed to list Books' });
-    }
-  }
-
-  async getByGenre(req: Request, res: Response): Promise<any> {
-    try {
-      const { params } = req;
-
-      const data = await BookService.getByGenre(params.genre);
+      const data = await BookService.getAuthors();
 
       res.status(httpStatus.OK).send(data);
     } catch (error) {
@@ -100,9 +83,7 @@ class BookController {
   routesMapping(): Router {
     this.router.get('/', this.get);
 
-    this.router.get('/:author', this.getByAuthor);
-
-    this.router.get('/genero/:genre', this.getByGenre);
+    this.router.get('/authors', this.getAuthors);
 
     this.router.post('/', this.post)
 

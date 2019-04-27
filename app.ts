@@ -4,11 +4,13 @@ import * as bodyParser from 'body-parser';
 import DataBase from './bin/db';
 import bookController from './src/controller/bookController';
 
-
 class App {
 
   public app: Application;
+
   private db: DataBase;
+
+  public teste: string;
 
   constructor() {
     this.app = express();
@@ -38,7 +40,7 @@ class App {
 
   routes(): void {
     this.app.route('/').get((req: Request, res: Response) => {
-      res.send({ title: 'Node Estoque', version: '0.0.1' });
+      res.send({ title: 'Node Books', version: '0.0.1' });
     });
 
     this.app.use('/api/v1/book', bookController.routesMapping());

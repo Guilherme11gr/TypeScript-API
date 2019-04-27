@@ -16,7 +16,6 @@ class Book extends Typegoose {
 
   @prop({ default: Date.now() })
   date: Date
-
 }
 
 export default Book;
